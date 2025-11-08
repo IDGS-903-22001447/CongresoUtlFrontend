@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generar Iconos PNG</title>
+</head>
+<body>
+    <h1>Generador de Iconos PNG</h1>
+    <p>Este archivo genera iconos PNG válidos basados en canvas.</p>
+    
+    <canvas id="canvas192" width="192" height="192"></canvas>
+    <button onclick="download('canvas192', 'icon-192.png')">Descargar 192x192</button>
+    <br><br>
+    
+    <canvas id="canvas512" width="512" height="512"></canvas>
+    <button onclick="download('canvas512', 'icon-512.png')">Descargar 512x512</button>
+
+    <script>
+        function createIcon(canvasId) {
+            const canvas = document.getElementById(canvasId)
+            const ctx = canvas.getContext('2d')
+            const size = canvas.width
+            
+            // Fondo gradiente azul
+            const gradient = ctx.createLinearGradient(0, 0, size, size)
+            gradient.addColorStop(0, '#0d6efd')
+            gradient.addColorStop(1, '#0a58ca')
+            ctx.fillStyle = gradient
+            ctx.fillRect(0, 0, size, size)
+            
+            // Borde redondeado (simulado)
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)'
+            ctx.lineWidth = size * 0.05
+            ctx.strokeRect(size * 0.05, size * 0.05, size * 0.9, size * 0.9)
+            
+            // Emoji 🎓
+            ctx.font = `${size * 0.6}px Arial`
+            ctx.textAlign = 'center'
+            ctx.textBaseline = 'middle'
+            ctx.fillText('🎓', size / 2, size / 2)
+        }
+        
+        function download(canvasId, filename) {
+            const canvas = document.getElementById(canvasId)
+            const link = document.createElement('a')
+            link.href = canvas.toDataURL('image/png')
+            link.download = filename
+            link.click()
+        }
+        
+        // Generar los dos iconos
+        createIcon('canvas192')
+        createIcon('canvas512')
+        
+        console.log('Iconos generados. Haz clic en los botones para descargar.')
+    </script>
+</body>
+</html>
