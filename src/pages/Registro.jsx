@@ -56,7 +56,16 @@ export default function Registro() {
 
     try {
       setLoading(true)
-      await apiService.create(form)
+      // Convertir a formato esperado por la API (con mayúsculas)
+      const dataToSend = {
+        Nombre: form.nombre,
+        Apellidos: form.apellidos,
+        Email: form.email,
+        Twitter: form.twitter,
+        Ocupacion: form.ocupacion,
+        AvatarUrl: form.avatarUrl
+      }
+      await apiService.create(dataToSend)
       Swal.fire('✅ Éxito', 'Participante registrado correctamente', 'success')
       navigate('/participantes')
     } catch (err) {

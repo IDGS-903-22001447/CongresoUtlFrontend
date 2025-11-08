@@ -19,22 +19,37 @@ export default function ParticipanteCard({ p, onDelete, onUpdate }) {
     setForm(prev => ({ ...prev, [name]: value }))
   }
 
+  
+
+
   const handleUpdate = async () => {
-    try {
-      await apiService.update(p.id, form)
-      Swal.fire({
-        icon: 'success',
-        title: '✅ Actualizado',
-        text: 'Participante actualizado exitosamente',
-        timer: 2000,
-        showConfirmButton: false
-      })
-      setIsEditing(false)
-      onUpdate()
-    } catch (err) {
-      Swal.fire('❌ Error', err.message, 'error')
+  try {
+    // 👇 Aquí enviamos los nombres en minúsculas (como el modelo del backend)
+    const dataToSend = {
+      id: p.id,
+      nombre: form.nombre,
+      apellidos: form.apellidos,
+      email: form.email,
+      twitter: form.twitter,
+      ocupacion: form.ocupacion,
+      avatarUrl: form.avatarUrl
     }
+
+    await apiService.update(p.id, dataToSend)
+
+    Swal.fire({
+      icon: 'success',
+      title: '✅ Actualizado',
+      text: 'Participante actualizado exitosamente',
+      timer: 2000,
+      showConfirmButton: false
+    })
+    setIsEditing(false)
+    onUpdate()
+  } catch (err) {
+    Swal.fire('❌ Error', err.message, 'error')
   }
+}
 
   const handleDelete = async () => {
     const result = await Swal.fire({
